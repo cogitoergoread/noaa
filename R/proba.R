@@ -3,7 +3,7 @@ library("dplyr")
 library(lubridate)
 # Read data
 rdata <- function() {
-  read_tsv(file="e:/Muszi/tmp/signif.txt", col_names = TRUE)
+  read_tsv(file="e:/Muszi/tmp/signif.txt.bz2", col_names = TRUE)
 }
 
 eq_clean_data <- function( frame ){

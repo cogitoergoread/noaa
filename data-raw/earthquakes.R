@@ -1,5 +1,5 @@
 library(readr)
-earthquakes <- read_tsv(file="data-raw/signif.txt",
+earthquakes <- read_tsv(file="data-raw/signif.txt.bz2",
                         col_names = TRUE,
                         col_types =
                           list (
