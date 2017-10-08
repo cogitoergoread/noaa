@@ -2,6 +2,7 @@ library("readr")
 library("dplyr")
 library(lubridate)
 library(stringr)
+library(ggplot2)
 # Read data
 rdata <- function() {
   read_tsv(file="e:/Muszi/tmp/signif.txt.bz2", col_names = TRUE)
@@ -24,3 +25,11 @@ eq_location_clean <- function( frame) {
 
 eqdta <- eq_location_clean(eq_clean_data(earthquakes)) %>%
   filter( date > ymd("20000101") & COUNTRY=="USA")
+
+ggplot (data = eqdta) +
+  geom_timeline(
+    aes(
+      x = date,
+      colour = EQ_PRIMARY
+    )
+  )
