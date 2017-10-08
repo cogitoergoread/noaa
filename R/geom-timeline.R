@@ -56,12 +56,10 @@ GeomTimeline <- ggplot2::ggproto("GeomTimeline", ggplot2::Geom,
 
                                  draw_panel = function(data, panel_params, coord, na.rm = FALSE) {
                                    coords <- coord$transform(data, panel_params)
-                                   # Common constants
-                                   ypos <- 0.2
 
                                    # Draw ti timeline points
                                    points_grob <- grid::pointsGrob(
-                                     coords$x, rep(ypos,length(coords$x)),
+                                     coords$x, coords$y,
                                      pch = coords$shape,
                                      gp = grid::gpar(
                                        col = alpha(coords$colour, coords$alpha),
@@ -71,14 +69,17 @@ GeomTimeline <- ggplot2::ggproto("GeomTimeline", ggplot2::Geom,
                                        lwd = coords$stroke * .stroke / 2
                                      )
                                    )
+                                   # Add the points to a gList
+                                   g_list <- grid::gList( points_grob )
 
-                                   # Line in the timeline
-                                   line_grob <- grid::linesGrob(
-                                     c(0,1), ypos
-                                   )
-
+                                   # Line in the timeline, add unique y lines individually
+                                   for( ycoord in unique(coords$y)) {
+                                     # New element to a gList, originally: https://github.com/Microsoft/microsoft-r-open/blob/master/source/src/library/grid/R/grob.R
+                                     g_list[[length(g_list) + 1L]] <- grid::linesGrob( c(0,1), ycoord )
+                                   }
                                    # Draw both points and line
-                                   grid::gTree(children = grid::gList( points_grob, line_grob ))
+                                   grid::gTree(children = g_list)
+
                                  },
 
                                  draw_key = ggplot2::draw_key_point
