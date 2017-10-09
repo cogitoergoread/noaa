@@ -114,3 +114,21 @@ ggplot (data = eqdta) +
       colour = EQ_PRIMARY
     )
   )
+
+
+# GeomTeimelineLabel
+# USA verzió
+eqdta <- eq_location_clean(eq_clean_data(earthquakes)) %>%
+  filter( date > ymd("20000101") & COUNTRY=="USA") %>%
+  head(n=5)
+
+ggplot (data = eqdta,
+        aes(
+          x = date,
+          y = COUNTRY,
+          label = LOCATION_NAME,
+          size = FOCAL_DEPTH,
+          colour = EQ_PRIMARY
+        )) +
+  geom_timeline() +
+  geom_timeline_label()
