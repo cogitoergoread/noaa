@@ -7,27 +7,49 @@
 #' stratification in which case multiple time lines will be plotted.
 #'
 #' @section Aesthetics:
-#' \aesthetics{geom}{point}
+#' geom_timeline understand the following aesthetics (required aesthetics is 'x'):
+#' \describe{
+#'   \item{x}{datetime of the event}
+#'   \item{size}{the size of the circle drawn at the event}
+#'   \item{colour}{the colour of the circle  drawn at the event}
+#'   \item{y}{free groupiong parameter}
+#'   }
 #'
-#' @inheritParams layer
 #' @param na.rm If `FALSE`, the default, missing values are removed with
 #'   a warning. If `TRUE`, missing values are silently removed.
 #' @param ... other arguments passed on to [layer()]. These are
 #'   often aesthetics, used to set an aesthetic to a fixed value, like
 #'   `color = "red"` or `size = 3`. They may also be parameters
 #'   to the paired geom/stat.
-#' @inheritParams layer
 #' @export
+#' @author József Varga
+#' @name geom_timeline
 #' @examples
-#' p <- ggplot(mtcars, aes(wt, mpg))
-#' p + geom_point()
+#' \dontrun{
+#'   # Use the built-in NOAA dataset filtered for two countries
+#'   eqdta <- eq_location_clean(eq_clean_data(earthquakes)) %>%
+#'   filter( date > ymd("20000101") & (COUNTRY=="USA" | COUNTRY=='CHINA' ) ) %>%
+#'     group_by(COUNTRY)
+#'
+#'   # Draw the geom
+#'   ggplot (data = eqdta) +
+#'     geom_timeline(
+#'       aes(
+#'         x = date,
+#'         y = COUNTRY,
+#'         size = FOCAL_DEPTH,
+#'         colour = EQ_PRIMARY
+#'       )
+#'     )
+#' }
+#'
 geom_timeline <- function(mapping = NULL, data = NULL,
                        stat = "identity", position = "identity",
                        ...,
                        na.rm = FALSE,
                        show.legend = NA,
                        inherit.aes = TRUE) {
-  layer(
+  ggplot2::layer(
     data = data,
     mapping = mapping,
     stat = stat,
@@ -42,7 +64,6 @@ geom_timeline <- function(mapping = NULL, data = NULL,
   )
 }
 
-#' @rdname ggplot2-ggproto
 #' @format NULL
 #' @usage NULL
 #' @export

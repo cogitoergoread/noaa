@@ -11,34 +11,43 @@
 #' takes the column name from which annotations will be obtained.
 #'
 #' @section Aesthetics:
-#' \aesthetics{geom}{text}
+#' geom_timeline understand the following aesthetics (required aesthetics are 'x' and 'label'):
+#' \describe{
+#'   \item{x}{datetime of the event}
+#'   \item{label}{the text to display}
+#'   \item{size}{the size of the circle drawn at the event}
+#'   \item{colour}{the colour of the circle  drawn at the event}
+#'   \item{y}{free groupiong parameter}
+#'   }
 #'
-#' @section `geom_label`:
-#' Currently `geom_label` does not support the `rot` parameter and
-#' is considerably slower than `geom_text`. The `fill` aesthetic
-#' controls the background colour of the label.
 #'
-#' @section Alignment:
-#' You can modify text alignment with the `vjust` and `hjust`
-#' aesthetics. These can either be a number between 0 (right/bottom) and
-#' 1 (top/left) or a character ("left", "middle", "right", "bottom", "center",
-#' "top"). There are two special alignments: "inward" and "outward".
-#' Inward always aligns text towards the center, and outward aligns
-#' it away from the center
-#'
-#' @inheritParams layer
-#' @inheritParams geom_point
+#' @param n_max The number of the max size events to display the label.
 #' @param parse If TRUE, the labels will be parsed into expressions and
 #'   displayed as described in ?plotmath
-#' @param nudge_x,nudge_y Horizontal and vertical adjustment to nudge labels by.
-#'   Useful for offsetting text from points, particularly on discrete scales.
 #' @param check_overlap If `TRUE`, text that overlaps previous text in the
 #'   same layer will not be plotted.
 #' @export
+#' @author József Varga
+#' @name geom_timeline_label
 #' @examples
+#' eqdta <- eq_location_clean(eq_clean_data(earthquakes)) %>%
+#' filter( date > ymd("20000101") & COUNTRY=="USA") %>%
+#'   head(n=5)
+#'
+#' ggplot (data = eqdta,
+#'         aes(
+#'           x = date,
+#'           y = COUNTRY,
+#'           label = LOCATION_NAME,
+#'           size = FOCAL_DEPTH,
+#'           colour = EQ_PRIMARY
+#'         )) +
+#'   geom_timeline() +
+#'   geom_timeline_label(n_max=6)
 geom_timeline_label <- function(mapping = NULL, data = NULL,
                       stat = "identity", position = "identity",
                       ...,
+                      n_max = 5,
                       parse = FALSE,
                       check_overlap = FALSE,
                       na.rm = FALSE,
@@ -58,13 +67,13 @@ geom_timeline_label <- function(mapping = NULL, data = NULL,
       parse = parse,
       check_overlap = check_overlap,
       na.rm = na.rm,
-      ...
+      ...,
+      n_max = n_max
     )
   )
 }
 
 
-#' @rdname ggplot2-ggproto
 #' @format NULL
 #' @usage NULL
 #' @export
@@ -76,20 +85,16 @@ GeomTimelineLabel <- ggplot2::ggproto("GeomTimelineLabel", ggplot2::Geom,
                       vjust = 0.5, alpha = NA, family = "", fontface = 1, lineheight = 1.2
                     ),
 
-                    draw_panel = function(data, panel_params, coord, parse = FALSE,
+                    draw_panel = function(data, panel_params, coord, n_max = 5,
+                                          parse = FALSE,
                                           na.rm = FALSE, check_overlap = FALSE) {
                       lab <- data$label
-                      if (parse) {
-                        lab <- parse(text = as.character(lab))
-                      }
 
+                      # Filter the top 3 by each y line
+                      data <- data %>%
+                        group_by(y) %>%
+                        top_n(n = n_max, wt = size)
                       data <- coord$transform(data, panel_params)
-                      if (is.character(data$vjust)) {
-                        data$vjust <- compute_just(data$vjust, data$y)
-                      }
-                      if (is.character(data$hjust)) {
-                        data$hjust <- compute_just(data$hjust, data$x)
-                      }
 
                       text_grob <-grid::textGrob(
                         lab,
@@ -118,20 +123,3 @@ GeomTimelineLabel <- ggplot2::ggproto("GeomTimelineLabel", ggplot2::Geom,
 
                     draw_key = ggplot2::draw_key_text
 )
-
-compute_just <- function(just, x) {
-  inward <- just == "inward"
-  just[inward] <- c("left", "middle", "right")[just_dir(x[inward])]
-  outward <- just == "outward"
-  just[outward] <- c("right", "middle", "left")[just_dir(x[outward])]
-
-  unname(c(left = 0, center = 0.5, right = 1,
-           bottom = 0, middle = 0.5, top = 1)[just])
-}
-
-just_dir <- function(x, tol = 0.001) {
-  out <- rep(2L, length(x))
-  out[x < 0.5 - tol] <- 1L
-  out[x > 0.5 + tol] <- 3L
-  out
-}

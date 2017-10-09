@@ -131,4 +131,4 @@ ggplot (data = eqdta,
           colour = EQ_PRIMARY
         )) +
   geom_timeline() +
-  geom_timeline_label()
+  geom_timeline_label(n_max=6)
