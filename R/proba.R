@@ -3,6 +3,8 @@ library("dplyr")
 library(lubridate)
 library(stringr)
 library(ggplot2)
+library(leaflet)
+
 # Read data
 rdata <- function() {
   read_tsv(file="e:/Muszi/tmp/signif.txt.bz2", col_names = TRUE)
@@ -132,3 +134,28 @@ ggplot (data = eqdta,
         )) +
   geom_timeline() +
   geom_timeline_label(n_max=6)
+
+
+########LeafLet#############
+
+eql <- earthquakes %>%
+  eq_clean_data() %>%
+  dplyr::filter(COUNTRY == "MEXICO" & lubridate::year(date) >= 2000) %>%
+  eq_map(annot_col = "EQ_PRIMARY")
+
+
+leaflet() %>%
+  addProviderTiles( "OpenStreetMap.Mapnik"  ) %>%
+  addCircleMarkers( data = eql,
+                    radius = ~ EQ_PRIMARY,
+                    lng = ~ LONGITUDE,
+                    lat = ~ LATITUDE,
+                    popup = ~ paste (date)
+                    )
+
+
+eqo<- earthquakes %>%
+ eq_clean_data() %>%
+ dplyr::filter(COUNTRY == "MEXICO" & lubridate::year(date) >= 2000) %>%
+ dplyr::mutate(popup_text = eq_create_label(.)) %>%
+#'   eq_map(annot_col = "popup_text")
