@@ -66,9 +66,9 @@ eq_map <- function(frame, annot_col = "date") {
 #'
 eq_create_label <- function(frame){
   paste (
-    ifelse (!is.na(LOCATION_NAME), paste ("<b>Location</b>:", LOCATION_NAME, "<br />")," "),
-    ifelse (!is.na(TOTAL_DEATHS), paste ("<b>Total deaths</b>:", TOTAL_DEATHS, "<br />")," "),
-    ifelse (!is.na(EQ_PRIMARY), paste ("<b>Magnitude</b>:", EQ_PRIMARY, "<br />")," ")
+    ifelse (!is.na(frame$LOCATION_NAME), paste ("<b>Location</b>:", frame$LOCATION_NAME, "<br />")," "),
+    ifelse (!is.na(frame$TOTAL_DEATHS), paste ("<b>Total deaths</b>:", frame$TOTAL_DEATHS, "<br />")," "),
+    ifelse (!is.na(frame$EQ_PRIMARY), paste ("<b>Magnitude</b>:", frame$EQ_PRIMARY, "<br />")," ")
   )
 }
 

@@ -156,6 +156,7 @@ leaflet() %>%
 
 eqo<- earthquakes %>%
  eq_clean_data() %>%
+  eq_location_clean( ) %>%
  dplyr::filter(COUNTRY == "MEXICO" & lubridate::year(date) >= 2000) %>%
- dplyr::mutate(popup_text = eq_create_label(.)) %>%
-#'   eq_map(annot_col = "popup_text")
+ dplyr::mutate(popup_text = eq_create_label(.))  %>%
+ eq_map(annot_col = "popup_text")
