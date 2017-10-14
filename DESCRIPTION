@@ -1,6 +1,6 @@
 Package: noaa
 Type: Processing NOAA earthquake data
-Title: What the Package Does (Title Case)
+Title: Display Earthquake Data in Timeline and in Map by HTML Widget.
 Version: 0.1.0
 Author: Jozsef Varga
 Maintainer: Jozsef Varga <31209755+cogitoergoread@users.noreply.github.com>
