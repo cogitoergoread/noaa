@@ -1,5 +1,9 @@
 # noaa
 
+Cleaning and displaying earthquake data
+
+## About
+
 The goal of noaa is to store a snapshot of the earthquake data from NOAA ( U.S. National Oceanographic and Atmospheric
 Administration) . The raw data can be transformed to contain an R datetime field instead of the separated 
 Year, Month,... , seconds fields. There is a  mapping tools added for 'ggplot2' and a fancy HTML widget is avialable for

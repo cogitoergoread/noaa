@@ -46,7 +46,6 @@ geom_timeline <- function(mapping = NULL, data = NULL,
   )
 }
 
-#' @rdname ggplot2-ggproto
 #' @format NULL
 #' @usage NULL
 #' @export
@@ -144,14 +143,14 @@ eql <- earthquakes %>%
   eq_map(annot_col = "EQ_PRIMARY")
 
 
-leaflet() %>%
-  addProviderTiles( "OpenStreetMap.Mapnik"  ) %>%
-  addCircleMarkers( data = eql,
-                    radius = ~ EQ_PRIMARY,
-                    lng = ~ LONGITUDE,
-                    lat = ~ LATITUDE,
-                    popup = ~ paste (date)
-                    )
+# leaflet() %>%
+#   addProviderTiles( "OpenStreetMap.Mapnik"  ) %>%
+#   addCircleMarkers( data = eql,
+#                     radius = ~ EQ_PRIMARY,
+#                     lng = ~ LONGITUDE,
+#                     lat = ~ LATITUDE,
+#                     popup = ~ paste (date)
+#                     )
 
 
 eqo<- earthquakes %>%

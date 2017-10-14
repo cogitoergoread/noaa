@@ -1,0 +1,113 @@
+---
+title: "Vignette Title"
+author: "József Varga"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette:
+    fig_width: 6
+    fig_height: 6
+vignette: >
+  %\VignetteIndexEntry{noaa - Getting and displaying Earthquake data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Introduction
+This document serves as the main overview of the noaa package, and will try 
+to explain the hows and whys of the package content along with clear visual
+examples.
+
+# NOAA data
+
+The  U.S. National Oceanographic and Atmospheric Administration (NOAA) publish a database
+on significant earthquakes around the world.
+The dataset contains information about 5,933 earthquakes over an approximately 4,000 year time span.
+
+The datasset is avialable at 
+[https://www.ngdc.noaa.gov/nndc/struts/form?t=101650&s=1&d=1](NOAA Link) . An actual state of the dataset can be obtained at the "Download" link.
+
+
+## Package snapshot
+In order to support easy access to the dataset the package contains a snapshot of the avialable data.
+To use the data it should be loaded:
+
+```{r}
+data(earthquakes)
+```
+
+## Use the latest data
+
+It is useful to use the latest downloaded data from the NOAA site. `eq_read_data()` is the function to use:
+
+```{r}
+eq <- eq_read_data(filename="data-raw/signif.txt.bz2" )
+```
+
+## Field description
+
+
+The detailed description of the dataset is supported by NOAA at the "Event Variable Definitions" link.
+
+The documentation also included in the package: `man/earthquakes.Rd`
+
+
+# Data cleaning
+
+The raw NOAA data is not ideal for R processing. There are two helper functions to clean the data.
+
+## Datetime field insertion
+
+NOAA dataset contains separate fields for the date - time: 
+
+## Location clean
+
+# Displaying a timeline
+
+# Displaying an interactive map
+
+Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact as possible. The `html_vignette` output type provides a custom style sheet (and tweaks some options) to ensure that the resulting html is as small as possible. The `html_vignette` format:
+
+- Never uses retina figures
+- Has a smaller default figure size
+- Uses a custom CSS stylesheet instead of the default Twitter Bootstrap style
+
+## Vignette Info
+
+Note the various macros within the `vignette` section of the metadata block above. These are required in order to instruct R how to build the vignette. Note that you should change the `title` field and the `\VignetteIndexEntry` to match the title of your vignette.
+
+## Styles
+
+The `html_vignette` template includes a basic CSS theme. To override this theme you can specify your own CSS in the document metadata as follows:
+
+    output: 
+      rmarkdown::html_vignette:
+        css: mystyles.css
+
+## Figures
+
+The figure sizes have been customised so that you can easily put two images side-by-side. 
+
+```{r, fig.show='hold'}
+plot(1:10)
+plot(10:1)
+```
+
+You can enable figure captions by `fig_caption: yes` in YAML:
+
+    output:
+      rmarkdown::html_vignette:
+        fig_caption: yes
+
+Then you can use the chunk option `fig.cap = "Your figure caption."` in **knitr**.
+
+## More Examples
+
+You can write math expressions, e.g. $Y = X\beta + \epsilon$, footnotes^[A footnote here.], and tables, e.g. using `knitr::kable()`.
+
+```{r, echo=FALSE, results='asis'}
+knitr::kable(head(mtcars, 10))
+```
+
+Also a quote using `>`:
+
+> "He who gives up [code] safety for [code] speed deserves neither."
+([via](https://twitter.com/hadleywickham/status/504368538874703872))
