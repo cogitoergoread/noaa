@@ -119,20 +119,20 @@ library(leaflet)
 #'
 # GeomTeimelineLabel
 # USA verzió
-eqdta <- eq_location_clean(eq_clean_data(earthquakes)) %>%
-  filter( date > ymd("20000101") & (COUNTRY=="USA" | COUNTRY=='CHINA')) %>%
-  head(n=5)
-
-ggplot (data = eqdta,
-        aes(
-          x = date,
-          y = COUNTRY,
-          label = LOCATION_NAME,
-          size = FOCAL_DEPTH,
-          colour = EQ_PRIMARY
-        )) +
-  geom_timeline() +
-  geom_timeline_label(n_max=6)
+# eqdta <- eq_location_clean(eq_clean_data(earthquakes)) %>%
+#   filter( date > ymd("20000101") & (COUNTRY=="USA" | COUNTRY=='CHINA')) %>%
+#   head(n=5)
+#
+# ggplot (data = eqdta,
+#         aes(
+#           x = date,
+#           y = COUNTRY,
+#           label = LOCATION_NAME,
+#           size = FOCAL_DEPTH,
+#           colour = EQ_PRIMARY
+#         )) +
+#   geom_timeline() +
+#   geom_timeline_label(n_max=6)
 
 #'
 #' ########LeafLet#############

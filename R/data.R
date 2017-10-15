@@ -55,4 +55,5 @@
 #'   \item{TOTAL_HOUSES_DAMAGED}{Total Number of Houses Damaged by the Earthquake and secondary effects (eg Tsunami): Valid values: 0 to 1100000. Whenever possible, numbers of houses damaged are listed.}
 #'   \item{TOTAL_HOUSES_DAMAGED_DESCRIPTION}{Description of Houses Damaged by the Earthquake and secondary effects (eg Tsunami): Valid values: 0 to 4. For those events not offering an exact number of houses damaged, the following four-level scale was used to classify the damage and was listed in the Houses Damaged De column. If the actual number of houses damaged was listed, a descriptor was also added for search purposes. 0 = None; 1 = Few (~1 to 50 houses); 2 = Some (~51 to 100 houses); 3 = Many (~101 to 1000 houses); 4 = Very Many (~1001 or more houses)}
 #' }
+#' @source \url{https://www.ngdc.noaa.gov/nndc/struts/form?t=101650&s=1&d=1}
 "earthquakes"

@@ -122,3 +122,22 @@ geom_timeline_label(n_max = 6)
  
 # Displaying an interactive map
 
+The `eq_map()` function takes an argument data containing the filtered data frame
+with earthquakes to visualize. The function maps the epicenters
+(LATITUDE/LONGITUDE) and annotates each point with in pop up window containing
+annotation data stored in a column of the data frame.
+
+The `eq_create_label()` adds an informative pop up text to a dataframe.
+
+The usage of both function is:
+
+```{r  fig2, fig.height = 3, fig.width = 8}
+library(magrittr)
+data(earthquakes)
+ earthquakes %>%
+   eq_clean_data() %>%
+   dplyr::filter(COUNTRY == "MEXICO" & lubridate::year(date) >= 2000) %>%
+   dplyr::mutate(popup_text = eq_create_label(.)) %>%
+   eq_map(annot_col = "popup_text")
+
+```
