@@ -115,7 +115,7 @@ GeomTimelineLabel <- ggplot2::ggproto("GeomTimelineLabel", ggplot2::Geom,
 
                       # Add the marker lines to the list
                       for (i in 1:length(data$x)){
-                        g_list[[length(g_list) + 1L]] <- grid::linesGrob( data$x[i], c(data$y, data$y+0.1) )
+                        g_list[[length(g_list) + 1L]] <- grid::linesGrob( data$x[i], c(data$y[i], data$y[i]+0.1) )
                       }
                       # Draw both text and line
                       grid::gTree(children = g_list)

@@ -80,8 +80,9 @@ eq_read_data <- function( filename ){
 #' @return Data frame like an earthquake data, not incuding
 #' 'YEAR','MONTH','DAY','HOUR','MINUTE','SECOND', and added 'data' field.
 #'
-#' @importFrom dplyr mutate_at mutate select
+#' @importFrom dplyr mutate_at mutate select funs one_of
 #' @importFrom lubridate make_datetime
+#' @importFrom magrittr "%>%"
 #'
 #' @export
 #'
@@ -91,10 +92,10 @@ eq_read_data <- function( filename ){
 #' }
 eq_clean_data <- function( frame ){
   frame %>%
-    dplyr::mutate_at( funs(replace(., is.na(.), 1)) , .vars = c( "MONTH", "DAY")  ) %>%
-    dplyr::mutate_at( funs(replace(., is.na(.), 0)) , .vars = c("YEAR", "HOUR", "MINUTE", "SECOND")  ) %>%
+    dplyr::mutate_at( dplyr::funs(replace(., is.na(.), 1)) , .vars = c( "MONTH", "DAY")  ) %>%
+    dplyr::mutate_at( dplyr::funs(replace(., is.na(.), 0)) , .vars = c("YEAR", "HOUR", "MINUTE", "SECOND")  ) %>%
     dplyr::mutate(date=lubridate::make_datetime (year = YEAR, month = MONTH, day = DAY, hour = HOUR, min = MINUTE, sec = SECOND) ) %>%
-    dplyr::select(-one_of( c('YEAR','MONTH','DAY','HOUR','MINUTE','SECOND') ) )
+    dplyr::select(-dplyr::one_of( c('YEAR','MONTH','DAY','HOUR','MINUTE','SECOND') ) )
 }
 
 
@@ -113,6 +114,7 @@ eq_clean_data <- function( frame ){
 #'
 #' @importFrom dplyr mutate
 #' @importFrom stringr str_to_title
+#' @importFrom magrittr "%>%"
 #'
 #' @export
 #'
