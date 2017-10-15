@@ -1,5 +1,11 @@
 context("geom")
 
+# Using vdiffr
+# Source: https://cran.r-project.org/web/packages/vdiffr/README.html
+# Samples at ggplot2/tests/testthat/test-geom-path.R
+# To run tests: devtools::test(filter = "geom")
+# To validate figs: vdiffr::manage_cases()
+
 test_that("test timeline geom", {
   eqdta <- data.frame ( date = c(lubridate::ymd("20150315"), lubridate::ymd("20160501"),lubridate::ymd("20171023")),
                         COUNTRY=c("USA","USA","CHINA"),
