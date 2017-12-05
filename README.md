@@ -50,3 +50,7 @@ eq_clean_data() %>%
 dplyr::filter(COUNTRY == "MEXICO" & lubridate::year(date) >= 2000) %>%
 eq_map(annot_col = "EQ_PRIMARY")
 ```
+
+## Travis CI status
+
+[![Travis-CI Build Status](https://travis-ci.org/cogitoergoread/noaa.svg?branch=master)](https://travis-ci.org/cogitoergoread/noaa)
