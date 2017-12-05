@@ -8,6 +8,14 @@ Description: Create a data frame from the NOAA earthquake data. Clean, display a
 License: MIT + file LICENSE
 Encoding: UTF-8
 RoxygenNote: 6.0.1
+Imports:
+  dplyr,
+  magrittr,
+  readr,
+  tidyr,
+  lubridate,
+  stringr,
+  leaflet
 Suggests: knitr,
     rmarkdown,
     testthat
